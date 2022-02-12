@@ -1,0 +1,148 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.singinBx {
+    display: flex;
+    justify-content: center;
+    padding: 45px 0;
+}
+
+    .singinBx form h2 {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 10px;
+        color: #555;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .singinBx form {
+        width: 35%;
+    }
+
+        .singinBx form input {
+            position: relative;
+            width: 100%;
+            padding: 10px;
+            background: #eae7e7;
+            color: #333;
+            border: none;
+            outline: none;
+            margin: 8px 0;
+            font-size: 14px;
+            letter-spacing: 1px;
+            font-weight: 300;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .singinBx form .signup {
+            position: relative;
+            margin-top: 20px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #555;
+            text-transform: uppercase;
+            font-weight: 300;
+            font-family: 'Poppins', sans-serif;
+        }
+
+            .singinBx form .signup a {
+                font-weight: 600;
+                text-decoration: none;
+                color: #677eff;
+                font-family: 'Poppins', sans-serif;
+            }
+
+.btn-submitForm {
+    width: 100%;
+    position: relative;
+    background: #000;
+    border: 0;
+    padding: 14px 42px;
+    border-radius: 3px;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+    .btn-submitForm::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -200%;
+        width: 200%;
+        height: 100%;
+        transform: skewX(-20deg);
+        background-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    }
+
+    .btn-submitForm:hover:after {
+        animation: shine 1.6s ease;
+    }
+
+    .btn-submitForm:active {
+        transform: translateY(1px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+@-moz-keyframes shine {
+    100% {
+        left: 200%;
+    }
+}
+
+@-webkit-keyframes shine {
+    100% {
+        left: 200%;
+    }
+}
+
+@-o-keyframes shine {
+    100% {
+        left: 200%;
+    }
+}
+
+@keyframes shine {
+    100% {
+        left: 200%;
+    }
+}
+.form-group.invalid .form-control {
+    border: 1px solid;
+    border-color: #f33a58;
+}
+
+.form-group.invalid .form-message {
+    color: #f33a58;
+}
+
+.form-message {
+    font-size: 12px;
+    line-height: 1.6rem;
+    padding: 4px 0 0;
+}
+#CaptchaImage {
+    width: 60% !important
+}
+
+#CaptchaInputText {
+    border: 1px solid;
+    background-color: white;
+    width: 60%;
+    padding: 3px;
+}

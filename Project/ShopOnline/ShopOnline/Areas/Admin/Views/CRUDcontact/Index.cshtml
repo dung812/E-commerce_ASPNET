@@ -1,0 +1,210 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutDashBoard.cshtml";
+}
+
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Contact manage</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="~/Admin/DashBoard/Index">Dash board</a></li>
+                        <li class="breadcrumb-item active">Contact list</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-5 align-self-center">
+            <div class="customize-input float-right">
+                <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+                    <option selected>Aug 19</option>
+                    <option value="1">July 19</option>
+                    <option value="2">Jun 19</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="card-body">
+    <h3 class="text-dark text-uppercase card-title">Contact</h3>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="dataTables_length" id="zero_config_length" style="display:flex"><label style="display:inherit;">Show <select name="zero_config_length" aria-controls="zero_config" class="form-control form-control-sm" style="position: relative; bottom: 3px;"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div>
+
+        </div>
+        <div class="col-sm-12 col-md-6">
+            @*<div id="zero_config_filter" class="dataTables_filter" style="text-align: right;">
+                <label style="display: flex; align-items: center;justify-content: flex-end;">Search: <input type="search" class="form-control form-control-sm" aria-controls="zero_config" style="width:auto" /></label>
+            </div>*@
+
+        </div>
+    </div>
+    <div class="table-responsive">
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="text-center">STT</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Gmail</th>
+                    <th class="text-center" width="400px">Message</th>
+                    <th class="text-center" width="200px">Feature</th>
+                </tr>
+            </thead>
+            <tbody id="tblDsContact"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalLop">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #5f76e8; color: white;">
+                <h5 class="modal-title">Send email</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control" id="email">
+                </div>
+                <div class="form-group">
+                    <label>Reply</label>
+                    <input type="text" class="form-control" id="subject">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSubmit">Click to send Email</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+
+
+        //---------------------------------
+        $(document).ready(function () {
+            LoadDsContact();
+        });
+
+        $(document).on('click', "button[name= 'reply']", function () {
+            let id = $(this).closest('tr').attr('id');
+            $.ajax({
+                url: '/Admin/CRUDcontact/Reply',
+                type: 'get',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $('#name').val(data.detail.name);
+                        $('#email').val(data.detail.email);
+
+                        // Không cho chỉnh sửa giá trị
+                        $('#name').prop('readonly', true);
+                        $('#email').prop('readonly', true);
+                        // Ẩn nút submit
+
+                        $('#modalLop').modal();
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                }
+            });
+        });
+
+        // Sự kiện click của button Delete
+        $(document).on('click', "button[name= 'delete']", function () {
+            let idContact = $(this).closest('tr').attr('id');
+            if (confirm("Are you sure you want to delete this?!")) {
+                $.ajax({
+                    url: '/Admin/CRUDcontact/Delete',
+                    type: 'post',
+                    data: {
+                        id: idContact
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            LoadDsContact();
+                        }
+                        else {
+                            alert(data.msg);
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#btnSubmit').click(function () {
+            let subject = $('#subject').val();
+            // Ràng buộc dữ liệu
+            if (subject.length == 0) {
+                alert('Invalid value');
+                return;
+            }
+
+            let email = $('#email').val().trim();
+            let name = $('#name').val().trim();
+            $.ajax({
+                url: '/Admin/CRUDcontact/SendMailToUser',
+                type: 'post',
+                data: {
+                    name: name,
+                    email: email,
+                    subject: subject
+                },
+                success: function (data) {
+                    if (data == true) {
+                        alert("Successfully sent");
+                        $('#modalLop').modal('hide');
+                    }
+                    else {
+                        alert("Sent failed");
+                    }
+                }
+            })
+        })
+        function LoadDsContact() {
+            $.ajax({
+                url: '/Admin/CRUDcontact/DsContact',
+                type: 'get',
+                success: function (data) {
+                    if (data.code == 200) {
+                        $('#tblDsContact').empty();
+                        var stt = 1;
+                        $.each(data.dsContact, function (k, v) {
+                            let tr = '<tr id = "' + v.id + '">'
+                            tr += '<td class="text-center">' + stt + '</td>';
+                            tr += '<td class="text-center">' + v.name + '</td>';
+                            tr += '<td class="text-center">' + v.email + '</td>';
+                            tr += '<td class="text-center">' + v.message + '</td>';
+                            tr += '<td class="text-center">';
+                            tr += '<button class="btn waves-effect waves-light btn-primary" name ="reply">Reply</button> &nbsp;';
+                            tr += '<button class="btn waves-effect waves-light btn-danger" name ="delete">Remove</button>';
+                            tr += '</td>';
+                            tr += '</tr > ';
+                            $('#tblDsContact').append(tr);
+                            stt++;
+                        });
+                    }
+                }
+
+            });
+        }
+    </script>
+}

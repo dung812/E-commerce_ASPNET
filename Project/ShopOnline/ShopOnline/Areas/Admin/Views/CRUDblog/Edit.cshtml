@@ -1,0 +1,154 @@
+﻿@model ShopOnline.Models.Article
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutDashBoard.cshtml";
+}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Edit product</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="~/Admin/CRUDblog/Index" class="text-muted">Blog list</a></li>
+                        <li class="breadcrumb-item text-muted active" aria-current="page">Edit</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-5 align-self-center">
+            <div class="customize-input float-right">
+                <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+                    <option selected>Aug 19</option>
+                    <option value="1">July 19</option>
+                    <option value="2">Jun 19</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Edit blog</h3>
+                    @using (Html.BeginForm("Edit", "CRUDblog", FormMethod.Post, new { @id = "form-1", @enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-body">
+                            @Html.HiddenFor(model => model.publicDate)
+                            @Html.HiddenFor(model => model.articleId)
+                            @Html.HiddenFor(model => model.userName)
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="title">Title</label>
+                                        @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control", @id = "title" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="productName">Desciption</label>
+                                        @*@Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control textareaTinym", @id = "description" } })*@
+                                        <div style="padding:10px; border:1px solid;margin-bottom:10px">
+                                            @if(Model.content.Length < 500)
+                                            {
+                                                 @Html.Raw(Model.content)
+                                            }
+                                            else
+                                            {
+                                                @Html.Raw(Model.content.Substring(0, 500)) <span> ...</span>
+                                            }
+                                            
+                                        </div>
+                                        <textarea class="form-group" name="des" id="content"></textarea>
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="shortDescription">Short description</label>
+                                        @Html.EditorFor(model => model.shortDescription, new { htmlAttributes = new { @class = "form-control", @id = "shortDescription" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="productName">Is checked</label>
+                                        @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control", @id = "status" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="productName">Category</label>
+                                        @Html.DropDownList("categoryId", null, htmlAttributes: new { @class = "form-control" })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="productName">Image</label>
+                                        <img src=@Url.Content(Model.image) class="img-thumbnail" width="100%" style="display:block; margin-bottom:10px" id="imagePreview" />
+                                        <input type="file" name="uploadFile" class="form-control-file" id="image" accept="image/jpeg, image/png" onclick="defaultBtnActive()" />
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn waves-effect waves-light btn-success">Edit</button>
+                                <a href="~/Admin/CRUDblog/Index" class="btn btn-info">Back to list</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/validator.js"></script>
+<script>
+    Validator({
+        form: '#form-1',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules: [
+            Validator.isRequired('#title')
+        ],
+    });
+</script>
+
+<script>
+    const inputImg = document.querySelector("#image");
+    const img = document.querySelector("#imagePreview");
+
+    function defaultBtnActive() {
+        inputImg.change();
+    }
+    inputImg.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const result = reader.result;
+                img.src = result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

@@ -1,0 +1,7 @@
+﻿@using ShopOnline.Models
+@model List<string>
+
+@foreach (var i in Model)
+{
+    <li><a href="@Url.Action("ProductList", "Shop", new { brand = i }, null)">@i</a></li>
+}

@@ -1,0 +1,135 @@
+﻿
+@{ ViewBag.Title = "Index";
+                Layout = "~/Areas/Admin/Views/Shared/_LayoutDashBoard.cshtml"; }
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Customer manage</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="~/Admin/DashBoard/Index">Dash board</a></li>
+                        <li class="breadcrumb-item active">Customer list</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-5 align-self-center">
+            <div class="customize-input float-right">
+                <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+                    <option selected>Aug 19</option>
+                    <option value="1">July 19</option>
+                    <option value="2">Jun 19</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="card-body">
+    <h3 class="text-dark text-uppercase card-title">Customer</h3>
+
+    <hr />
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="dataTables_length" id="zero_config_length" style="display:flex"><label style="display:inherit;">Show <select name="zero_config_length" aria-controls="zero_config" class="form-control form-control-sm" style="position: relative; bottom: 3px;"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            @*<div id="zero_config_filter" class="dataTables_filter" style="text-align: right;">
+                <label style="display: flex; align-items: center;justify-content: flex-end;">Search: <input type="search" class="form-control form-control-sm" aria-controls="zero_config" style="width:auto" /></label>
+            </div>*@
+        </div>
+    </div>
+    <div class="table-responsive">
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="text-center">NO</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Phone</th>
+                    <th class="text-center">Address</th>
+                    <th class="text-center">Feature</th>
+                </tr>
+            </thead>
+            <tbody id="tblDsCustomer"></tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .page-item a {
+        display: block;
+        padding: .5rem .75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: #5f76e8;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+    }
+
+    .pagination {
+        margin: 2px 0;
+        white-space: nowrap;
+        justify-content: flex-end;
+    }
+</style>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            LoadDsCustomer();
+        });
+        // Sự kiện click của button Delete
+        $(document).on('click', "button[name= 'delete']", function () {
+            let idCustomer = $(this).closest('tr').attr('id');
+            if (confirm("Are you sure you want to delete this?!")) {
+                $.ajax({
+                    url: '/Admin/CRUDcustomer/Delete',
+                    type: 'post',
+                    data: {
+                        customerId: idCustomer
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            LoadDsCustomer();
+                        }
+                        else {
+                            alert(data.msg);
+                        }
+                    }
+                });
+            }
+        });
+        function LoadDsCustomer() {
+            //Dùng ajax để load danh sách member trong controller CRUDmember
+            $.ajax({
+                url: '/Admin/CRUDcustomer/DsCustomer',
+                type: 'get',
+                success: function (data) {
+                    if (data.code == 200) {
+                        $('#tblDsCustomer').empty();
+                        let stt = 1;
+                        $.each(data.dsCustomer, function (k, v) {
+                            let tr = '<tr id = "' + v.customerId + '">'
+                            tr += '<td class="text-center">' + stt + '</td>';
+                            tr += '<td class="text-center">' + v.firstName + '<span> </span>' + v.lastName + '</td>';
+                            tr += '<td class="text-center">' + v.email + '</td>';
+                            tr += '<td class="text-center">' + v.phone + '</td>';
+                            tr += '<td class="text-center">' + v.address + '</td>';
+                            tr += '<td class="text-center">';
+                            tr += '<button class="btn waves-effect waves-light btn-danger" name ="delete">Remove</button>';
+                            tr += '</td>';
+                            tr += '</tr > ';
+                            $('#tblDsCustomer').append(tr);
+                            stt++;
+                        });
+                    }
+                }
+
+            });
+        }
+    </script>    
+}

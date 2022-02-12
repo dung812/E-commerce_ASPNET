@@ -1,0 +1,103 @@
+﻿@using ShopOnline.Models
+@model List<Product>
+<div class="row product__filter">
+    @foreach (var i in Model)
+    {
+        if (i.discount > 0)
+        {
+            <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg=@Url.Content(""+i.image)>
+                        @if (i.discount != 0)
+                        {
+                            <span class="label">Sale</span>
+                        }
+                        <ul class="product__hover">
+                            <li><a href="#"><img src="~/Content/img/icon/heart.png" alt=""></a></li>
+                            <li><a href="#"><img src="~/Content/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                            <li><a href="#"><img src="~/Content/img/icon/search.png" alt=""></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="@Url.Action("ProductDetail", "Shop", new { id = i.productId ,category = i.categoryId})" class="nameProduct">@i.productName</a></h6>
+                        <a href="@Url.Action("AddToCart", "Cart", new { id = i.productId, @strURL = Request.Url.ToString() })" class="add-cart">+ Add To Cart</a>
+                        <div class="rating">
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <h5>
+                            @if (i.discount != 0)
+                            {
+                                 var giaDaGiam = i.price - ((i.price * i.discount) / 100);
+                                 <span>$</span>@giaDaGiam
+                                 <span class="discount-price">@i.price</span>
+                            }
+                            else
+                            {
+                                @i.price
+                            }
+                        </h5>
+                        <div class="product__color__select">
+                            <label for="pc-1">
+                                <input type="radio" id="pc-1">
+                            </label>
+                            <label class="active black" for="pc-2">
+                                <input type="radio" id="pc-2">
+                            </label>
+                            <label class="grey" for="pc-3">
+                                <input type="radio" id="pc-3">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        }
+        else
+        {
+            <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg=@Url.Content(""+i.image)>
+                        @if (i.discount != 0)
+                         {
+                            <span class="label">Sale</span>
+                         }
+                        <ul class="product__hover">
+                            <li><a href="#"><img src="~/Content/img/icon/heart.png" alt=""></a></li>
+                            <li><a href="#"><img src="~/Content/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                            <li><a href="#"><img src="~/Content/img/icon/search.png" alt=""></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="@Url.Action("ProductDetail", "Shop", new { id = i.productId ,category = i.categoryId})" class="nameProduct">@i.productName</a></h6>
+                        <a href="@Url.Action("AddToCart", "Cart", new { id = i.productId, @strURL = Request.Url.ToString() })" class="add-cart">+ Add To Cart</a>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <h5>
+                            $@{ var price = i.price - ((i.price * i.discount) / 100); }@price @if (i.discount != 0)
+                            {<span>@i.price</span>}
+                        </h5>
+                        <div class="product__color__select">
+                            <label for="pc-1">
+                                <input type="radio" id="pc-1">
+                            </label>
+                            <label class="active black" for="pc-2">
+                                <input type="radio" id="pc-2">
+                            </label>
+                            <label class="grey" for="pc-3">
+                                <input type="radio" id="pc-3">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+     }
+</div>        

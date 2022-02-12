@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "ArticleList";
+    Layout = "~/Views/Shared/_LayoutPublicPage.cshtml";
+}
+@using PagedList.Mvc
+@using ShopOnline.Models
+@model PagedList.PagedList<Article>
+
+
+<script>
+    var obj = document.querySelector(".navlist li:nth-child(1)");
+    var obj2 = document.querySelector(".navlist li:nth-of-type(3)");
+    obj.classList.remove("active");
+    obj2.classList.add("active");
+</script>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-blog set-bg" data-setbg=@Url.Content("~/Content/img/breadcrumb-bg.jpg")>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Our Blog</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Blog Section Begin -->
+<section class="blog spad">
+    <div class="container">
+        <div class="row">
+            @foreach (var i in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg=@Url.Content(""+@i.image)></div>
+                        <div class="blog__item__text">
+                            <span><img src="~/Content/img/icon/calendar.png" alt=""> @i.publicDate</span>
+                            <h5>@i.title</h5>
+                            <a href="@Url.Action("ArticleDetail","Article",new { id = i.articleId})">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="product__pagination">
+        @Html.PagedListPager(Model, page => Url.Action("ArticleList", new { page = page }))
+    </div>
+</section>
+<!-- Blog Section End -->
+

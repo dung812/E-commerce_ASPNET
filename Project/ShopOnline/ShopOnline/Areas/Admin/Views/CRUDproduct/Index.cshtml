@@ -1,0 +1,187 @@
+﻿@using ShopOnline.Models
+@using PagedList.Mvc
+@model PagedList.PagedList<Product>
+@{ 
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutDashBoard.cshtml"; 
+}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Product manage</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="~/Admin/DashBoard/Index">Dash board</a></li>
+                        <li class="breadcrumb-item active">Product list</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-5 align-self-center">
+            <div class="customize-input float-right">
+                <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+                    <option selected>Aug 19</option>
+                    <option value="1">July 19</option>
+                    <option value="2">Jun 19</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="card-body">
+    <h3 class="text-dark text-uppercase card-title">Product</h3>
+        @if (TempData["msgCreate"] != null)
+        {
+        <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+                @TempData["msgCreate"]
+         </div>
+        }        
+        @if (TempData["msgEdit"] != null)
+        {
+        <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+                @TempData["msgEdit"]
+         </div>
+        }
+        @if (TempData["msgEditFailed"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @TempData["msgEditFailed"]
+            </div>
+        }
+        @if (TempData["msgDelete"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @TempData["msgDelete"]
+            </div>
+        }
+
+    <hr />
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="dataTables_length" id="zero_config_length" style="display:flex"><label style="display:inherit;">Show <select name="zero_config_length" aria-controls="zero_config" class="form-control form-control-sm" style="position: relative; bottom: 3px;"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div>
+
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div id="zero_config_filter" class="dataTables_filter" style="text-align: right;">
+                <label style="display: flex; align-items: center;justify-content: flex-end;">
+                    Search:
+                    @using (Html.BeginForm("Index", "CRUDproduct", FormMethod.Get, new { @style = "display: flex; align-items: center;" }))
+                    {
+                        <input type="search" name="searching" class="form-control form-control-sm" aria-controls="zero_config" style="width:auto" />
+                        <input type="submit" value="Search" />
+                    }
+                </label>
+            </div>
+
+        </div>
+    </div>
+    <div class="table-responsive">
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="text-center">ID</th>
+                    <th class="text-center">Product name</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Discount</th>
+                    <th class="text-center">Quality</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Checked</th>
+                    <th class="text-center">Feature</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model.Count() == 0) 
+                { 
+                    <tr>
+                        <td colspan="8">No match any document</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var i in Model)
+                    {
+                    <tr>
+                        <th scope="row" class="text-center font-weight-medium">@i.productId</th>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src=@Url.Content("" + i.image) width="80%" />
+                                </div>
+                                <div class="col-md-9">
+                                    @i.productName
+                                </div>
+                            </div>
+
+                        </td>
+                        <td class="text-center">$@i.price</td>
+                        <td class="text-center">@i.discount%</td>
+                        <td class="text-center">@i.quanlity</td>
+                        <td class="text-center">@i.ProductCategory.categoryName</td>
+                        <td class="text-center">
+                            @if (i.status == true)
+                            {
+                                <i class="fa fa-circle text-success font-12" data-toggle="tooltip" data-placement="top" title="Checked"></i> 
+                            }
+                            else
+                            {
+                                <i class="fa fa-circle text-danger font-12" data-toggle="tooltip" data-placement="top" title="Unchecked"></i>                
+                            }
+                        </td>
+                        <td width="170px">
+                            <a href="@Url.Action("Edit", "CRUDproduct", new { id = i.productId})" class="btn waves-effect waves-light btn-primary">Edit</a>
+                            <a href="@Url.Action("Delete", "CRUDproduct", new { id = i.productId})" class="btn waves-effect waves-light btn-danger" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row" style=" align-items: center">
+        <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" id="zero_config_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="default_order_paginate">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }), new PagedListRenderOptions() { LiElementClasses = new List<string> { "paginate_button", "page-item" } })
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-item a {
+        display: block;
+        padding: .5rem .75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: #5f76e8;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+    }
+
+    .pagination {
+        margin: 2px 0;
+        white-space: nowrap;
+        justify-content: flex-end;
+    }
+</style>
+
+

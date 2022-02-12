@@ -1,0 +1,7 @@
+﻿@using ShopOnline.Models
+@model List<ProductCategory>
+
+@foreach (var i in Model)
+{
+    <li>@Html.ActionLink(i.categoryName, "ProductList", "Shop", new { categories = i.categoryId }, null)</li>
+}

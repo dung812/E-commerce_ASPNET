@@ -1,0 +1,104 @@
+﻿@using ShopOnline.Models
+@model List<InvoinceDetail>
+
+@{
+    ViewBag.Title = "InvoinceDetail";
+    Layout = "~/Views/Shared/_LayoutPublicPage.cshtml";
+}
+
+@{
+    Invoince info = (Invoince)@Session["information"];
+}
+
+<div class="container" style="padding: 50px 0">
+    <h4 class="mb-3 text-dark text-uppercase">Orders / #@ViewBag.invoinceNo</h4>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Product</th>
+                                <th scope="col" class="text-center">Quality</th>
+                                <th scope="col" class="text-center">Unit price</th>
+                                <th scope="col" class="text-center">Total money</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int stt = 1, total = 0, totaldiscount = 0, totalprice = 0, tempPrice = 0;}
+                            @foreach (var i in Model)
+                            {
+                                tempPrice = (int)i.totalPrice + (int)i.totalDiscount;
+                                <tr>
+                                    <td width="400px">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <img src=@Url.Content("" + i.Product.image) width="80%" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                @i.Product.productName
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">@i.quanlityProduct</td>
+                                    <td class="text-center">$@i.Product.price</td>
+                                    <td class="text-center">$@tempPrice</td>
+                                </tr>
+                                stt++;
+                                total += (int)i.totalPrice;
+                                totaldiscount += (int)i.totalDiscount;
+                            }
+                            @{ totalprice = total + totaldiscount; }
+                        </tbody>
+                    </table>
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6 text-right">
+                                    <p>Subtotal:</p>
+                                    <p>Shipping:</p>
+                                    <p>Discounted: </p>
+                                    <p><b>Total:</b></p>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <p>$@totalprice</p>
+                                    <p>$0</p>
+                                    <p>-$@totaldiscount</p>
+                                    <p>$@total</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 style="margin-bottom: 25px">Orderer information</h4>
+                    <p style="margin: 0">
+                        <b>
+                            @info.Member.firstName<span> </span>@info.Member.lastName
+                        </b>
+                    </p>
+                    <p style="margin: 0"> 
+                        @info.Member.phone
+                    </p>
+                    <p style="margin: 0">
+                        @info.Member.address
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "TrackingCovid";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutDashBoard.cshtml";
+}
+
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Ticket List</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="index.html" class="text-muted">Apps</a></li>
+                        <li class="breadcrumb-item text-muted active" aria-current="page">Ticket List</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-5 align-self-center">
+            <div class="customize-input float-right">
+                <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+                    <option selected>Aug 19</option>
+                    <option value="1">July 19</option>
+                    <option value="2">Jun 19</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- basic table -->
+    <h1>Covid-19 tại Việt Nam</h1>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Column -->
+                        <div class="col-md-6 col-lg-3 col-xlg-3">
+                            <div class="card card-hover">
+                                <div class="p-2 bg-primary text-center">
+                                    <h2 class="font-light text-white" id="thegioi">0</h2>
+                                    <h6 class="text-white">Số ca nhiễm trên toàn thế giới</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <div class="col-md-6 col-lg-3 col-xlg-3">
+                            <div class="card card-hover">
+                                <div class="p-2 bg-cyan text-center">
+                                    <h2 class="font-light text-white" id="vn">0</h2>
+                                    <h6 class="text-white">Số ca nhiễm trong nước</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <div class="col-md-6 col-lg-3 col-xlg-3">
+                            <div class="card card-hover">
+                                <div class="p-2 bg-success text-center">
+                                    <h2 class="font-light text-white" id="phuchoi">0</h2>
+                                    <h6 class="text-white" >Số ca chữa khỏi</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <div class="col-md-6 col-lg-3 col-xlg-3">
+                            <div class="card card-hover">
+                                <div class="p-2 bg-danger text-center">
+                                    <h2 class="font-light text-white" id="tuvong">0</h2>
+                                    <h6 class="text-white">Số ca tử vong</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Thống kê theo biểu đồ tròn</h4>
+                                    <div>
+                                        <canvas id="pie-data" height="230"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Thống kê theo biểu đồ cột</h4>
+                                    <div>
+                                        <canvas id="bar-data" height="230"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Container fluid  -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+@section ChartCovid{
+    <script src="~/Areas/Admin/Content/assets/libs/chart.js/dist/Chart.min.js"></script>
+    <script>
+        var getAPISumarry = 'https://api.covid19api.com/summary'; // Data số liệu covid thế giới
+        var getAPIvn = 'https://corona.lmao.ninja/v2/countries/vn'; // Data số liệu covid Việt Nam
+        var apiCovidDate = 'https://api.covid19api.com/dayone/country/Viet-Nam'; //  Data số liệu covid Việt Nam từng ngày
+
+        function counterUp(el, to) {
+            let speed = 200
+            let from = 0
+            let step = to / speed
+            const counter = setInterval(function () {
+                from += step
+                if (from > to) {
+                    clearInterval(counter)
+                    el.innerText = to
+                } else {
+                    el.innerText = Math.ceil(from)
+                }
+            }, 1)
+        }
+
+
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
+
+        fetch(getAPISumarry)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (datas) {
+                var total = document.querySelector('#thegioi');
+                //total.innerText = formatNumber(datas.Global.TotalConfirmed);
+                counterUp(total, datas.Global.TotalConfirmed);
+
+            })
+
+        fetch(getAPIvn)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (datas) {
+                var total = document.querySelector('#vn');
+                var recoverd = document.querySelector('#phuchoi');
+                var death = document.querySelector('#tuvong');
+
+                counterUp(total, datas.cases);
+                counterUp(recoverd, datas.recovered);
+                counterUp(death, datas.deaths);
+
+                //total.innerText = formatNumber(datas.cases);
+                //recoverd.innerText = formatNumber(datas.recovered);
+                //death.innerText = formatNumber(datas.deaths);
+
+
+
+
+                var soca = datas.cases;
+                var phuchoi = datas.recovered;
+                var tuvong = datas.deaths;
+                chartPie(soca, phuchoi, tuvong);
+            })
+        function chartPie(soca, phuchoi, tuvong) {
+            setTimeout(function () {
+                new Chart(document.getElementById("pie-data"), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Tổng số ca nhiễm", "Tổng số ca chữa khỏi", "Tổng số ca tử vong"],
+                        datasets: [{
+                            backgroundColor: ["#01caf1", "#22ca80", "#ff4f70"],
+                            data: [soca,phuchoi,tuvong]
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Thống kê covid-19 Việt Nam hiện tại'
+                        }
+                    }
+                });
+            },1000)
+        }
+
+        fetch(apiCovidDate)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                var soCa = [];
+                var ngay = [];
+                var ngayGanDay = data.slice(data.length - 15); // Lấy ra 15 ngày gần nhất
+                for (var i = 0; i < ngayGanDay.length - 1; ++i) { // Trừ ngày hiện tại vì số liệu ngày hiện tại không đúng
+                    soCa.push(ngayGanDay[i].Confirmed);
+                    ngay.push(new Date(ngayGanDay[i].Date.slice(0, 10)).toLocaleDateString('am-ET'))
+                }
+                chartImplement(soCa, ngay);
+            });
+        function chartImplement(soCa, ngay) {
+            setTimeout(function () {
+                new Chart(document.getElementById("bar-data"), {
+                    type: 'bar',
+                    data: {
+                        labels: ngay,
+                        datasets: [
+                            {
+                                label: "Tổng số ca mắc",
+                                backgroundColor: 'green',
+                                data: soCa
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Tổng số ca mắc trong 15 ngày gần nhất'
+                        }
+                    }
+                });
+            }, 1000)
+        }
+    </script>
+}

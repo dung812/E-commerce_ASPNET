@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="menfashionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Article">
+    <Key>
+      <PropertyRef Name="articleId" />
+    </Key>
+    <Property Name="articleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="shortDescription" Type="nvarchar" MaxLength="2000" />
+    <Property Name="image" Type="nvarchar" MaxLength="2000" />
+    <Property Name="publicDate" Type="datetime" />
+    <Property Name="content" Type="nvarchar(max)" />
+    <Property Name="status" Type="bit" />
+    <Property Name="userName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="categoryId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dateContact" Type="datetime" />
+    <Property Name="name" Type="nvarchar" MaxLength="250" />
+    <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="message" Type="nvarchar" MaxLength="2000" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="customerId" />
+    </Key>
+    <Property Name="customerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstName" Type="nvarchar" MaxLength="250" />
+    <Property Name="lastName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="20" />
+    <Property Name="address" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Invoince">
+    <Key>
+      <PropertyRef Name="invoinceNo" />
+    </Key>
+    <Property Name="invoinceNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="dateOrder" Type="datetime" />
+    <Property Name="status" Type="bit" />
+    <Property Name="deliveryStatus" Type="bit" />
+    <Property Name="deliveryDate" Type="datetime" />
+    <Property Name="totalMoney" Type="int" Nullable="false" />
+    <Property Name="userName" Type="varchar" MaxLength="50" />
+    <Property Name="customerId" Type="int" />
+  </EntityType>
+  <EntityType Name="InvoinceDetail">
+    <Key>
+      <PropertyRef Name="invoinceNo" />
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="invoinceNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="productId" Type="int" Nullable="false" />
+    <Property Name="quanlityProduct" Type="int" />
+    <Property Name="unitPrice" Type="int" />
+    <Property Name="totalPrice" Type="int" />
+    <Property Name="totalDiscount" Type="int" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="userName" />
+    </Key>
+    <Property Name="userName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="firstName" Type="nvarchar" MaxLength="250" />
+    <Property Name="lastName" Type="nvarchar" MaxLength="250" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="birthday" Type="date" />
+    <Property Name="identityNumber" Type="varchar" MaxLength="20" />
+    <Property Name="phone" Type="varchar" MaxLength="20" />
+    <Property Name="dateOfJoin" Type="datetime" />
+    <Property Name="address" Type="nvarchar" MaxLength="250" />
+    <Property Name="avatar" Type="nvarchar" MaxLength="2000" />
+    <Property Name="status" Type="bit" />
+    <Property Name="roleId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="image" Type="varchar" MaxLength="2000" />
+    <Property Name="price" Type="int" />
+    <Property Name="discount" Type="int" />
+    <Property Name="description" Type="nvarchar" MaxLength="2000" />
+    <Property Name="quanlity" Type="int" />
+    <Property Name="brand" Type="nvarchar" MaxLength="250" />
+    <Property Name="dateCreate" Type="datetime" />
+    <Property Name="status" Type="bit" />
+    <Property Name="categoryId" Type="int" Nullable="false" />
+    <Property Name="userName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductCategory">
+    <Key>
+      <PropertyRef Name="categoryId" />
+    </Key>
+    <Property Name="categoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryName" Type="nvarchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="roleId" />
+    </Key>
+    <Property Name="roleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="roleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Slide">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dateCreate" Type="datetime" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="description" Type="nvarchar" MaxLength="250" />
+    <Property Name="url" Type="varchar" MaxLength="50" />
+    <Property Name="status" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'menfashion.dbo.vDoanhThuTheoNgay' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vDoanhThuTheoNgay">
+    <Key>
+      <PropertyRef Name="dateOrder" />
+    </Key>
+    <Property Name="dateOrder" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="income" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'menfashion.dbo.vHoaDonTrongNgay' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vHoaDonTrongNgay">
+    <Key>
+      <PropertyRef Name="invoinceNo" />
+      <PropertyRef Name="totalMoney" />
+    </Key>
+    <Property Name="invoinceNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="dateOrder" Type="datetime" />
+    <Property Name="status" Type="bit" />
+    <Property Name="deliveryStatus" Type="bit" />
+    <Property Name="deliveryDate" Type="datetime" />
+    <Property Name="totalMoney" Type="int" Nullable="false" />
+    <Property Name="userName" Type="varchar" MaxLength="50" />
+    <Property Name="customerId" Type="int" />
+  </EntityType>
+  <Association Name="FK_INVOINCE_CUSTOMER">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Invoince" Type="Self.Invoince" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="customerId" />
+      </Principal>
+      <Dependent Role="Invoince">
+        <PropertyRef Name="customerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INVOINCE_MEMBER">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Invoince" Type="Self.Invoince" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="Invoince">
+        <PropertyRef Name="userName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INVOINCEDETAIL_INVOINCE">
+    <End Role="Invoince" Type="Self.Invoince" Multiplicity="1" />
+    <End Role="InvoinceDetail" Type="Self.InvoinceDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Invoince">
+        <PropertyRef Name="invoinceNo" />
+      </Principal>
+      <Dependent Role="InvoinceDetail">
+        <PropertyRef Name="invoinceNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INVOINCEDETAIL_PRODUCT">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="InvoinceDetail" Type="Self.InvoinceDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="InvoinceDetail">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MEMBER_ROLE">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="Member" Type="Self.Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="roleId" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="roleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_POST_CATEGORY">
+    <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+    <End Role="Article" Type="Self.Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategory">
+        <PropertyRef Name="categoryId" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="categoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_POST_MEMBER">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Article" Type="Self.Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="userName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODUCT_CATEGORY">
+    <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategory">
+        <PropertyRef Name="categoryId" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="categoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODUCT_MEMBER">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="userName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="menfashionModelStoreContainer">
+    <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Invoince" EntityType="Self.Invoince" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InvoinceDetail" EntityType="Self.InvoinceDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Slide" EntityType="Self.Slide" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vDoanhThuTheoNgay" EntityType="Self.vDoanhThuTheoNgay" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vDoanhThuTheoNgay].[dateOrder] AS [dateOrder], 
+    [vDoanhThuTheoNgay].[income] AS [income]
+    FROM [dbo].[vDoanhThuTheoNgay] AS [vDoanhThuTheoNgay]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vHoaDonTrongNgay" EntityType="Self.vHoaDonTrongNgay" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vHoaDonTrongNgay].[invoinceNo] AS [invoinceNo], 
+    [vHoaDonTrongNgay].[dateOrder] AS [dateOrder], 
+    [vHoaDonTrongNgay].[status] AS [status], 
+    [vHoaDonTrongNgay].[deliveryStatus] AS [deliveryStatus], 
+    [vHoaDonTrongNgay].[deliveryDate] AS [deliveryDate], 
+    [vHoaDonTrongNgay].[totalMoney] AS [totalMoney], 
+    [vHoaDonTrongNgay].[userName] AS [userName], 
+    [vHoaDonTrongNgay].[customerId] AS [customerId]
+    FROM [dbo].[vHoaDonTrongNgay] AS [vHoaDonTrongNgay]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_INVOINCE_CUSTOMER" Association="Self.FK_INVOINCE_CUSTOMER">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Invoince" EntitySet="Invoince" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INVOINCE_MEMBER" Association="Self.FK_INVOINCE_MEMBER">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Invoince" EntitySet="Invoince" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INVOINCEDETAIL_INVOINCE" Association="Self.FK_INVOINCEDETAIL_INVOINCE">
+      <End Role="Invoince" EntitySet="Invoince" />
+      <End Role="InvoinceDetail" EntitySet="InvoinceDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INVOINCEDETAIL_PRODUCT" Association="Self.FK_INVOINCEDETAIL_PRODUCT">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="InvoinceDetail" EntitySet="InvoinceDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MEMBER_ROLE" Association="Self.FK_MEMBER_ROLE">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Member" EntitySet="Member" />
+    </AssociationSet>
+    <AssociationSet Name="FK_POST_CATEGORY" Association="Self.FK_POST_CATEGORY">
+      <End Role="ProductCategory" EntitySet="ProductCategory" />
+      <End Role="Article" EntitySet="Article" />
+    </AssociationSet>
+    <AssociationSet Name="FK_POST_MEMBER" Association="Self.FK_POST_MEMBER">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Article" EntitySet="Article" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODUCT_CATEGORY" Association="Self.FK_PRODUCT_CATEGORY">
+      <End Role="ProductCategory" EntitySet="ProductCategory" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODUCT_MEMBER" Association="Self.FK_PRODUCT_MEMBER">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

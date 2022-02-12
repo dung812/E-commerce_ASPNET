@@ -1,0 +1,185 @@
+﻿@model ShopOnline.Models.Member
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutDashBoard.cshtml";
+}
+
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Edit member</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="~/Admin/CRUDmember/Index" class="text-muted">Member list</a></li>
+                        <li class="breadcrumb-item text-muted active" aria-current="page">Edit</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-5 align-self-center">
+            <div class="customize-input float-right">
+                <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+                    <option selected>Aug 19</option>
+                    <option value="1">July 19</option>
+                    <option value="2">Jun 19</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Edit member</h3>
+                    @using (Html.BeginForm("Edit", "CRUDmember", FormMethod.Post, new { @id = "form-1", @enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-body">
+                            @Html.HiddenFor(model => model.dateOfJoin)
+                            @Html.HiddenFor(model => model.password)
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="userName">Username</label>
+                                        @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", @id = "userName", @readonly = "readonly" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @id = "email" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstName">FirstName</label>
+                                        @Html.EditorFor(model => model.firstName, new { htmlAttributes = new { @class = "form-control", @id = "firstName" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastName">LastName</label>
+                                        @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control", @id = "lastName" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="birthday">Birthday</label>
+                                        @*@Html.EditorFor(model => model.birthday, new { htmlAttributes = new { @class = "form-control", @id = "birthday", @type = "date", @Value = Model.birthday != null ? Model.birthday.Value.Date.ToString("yyyy-MM-dd") : null } })*@
+                                        @Html.EditorFor(model => model.birthday, new { htmlAttributes = new { @class = "form-control", @id = "birthday", @Value = @Model.birthday.Value.Date.ToString("yyyy/MM/dd") } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="identityNumber">Identity number</label>
+                                        @Html.EditorFor(model => model.identityNumber, new { htmlAttributes = new { @class = "form-control", @id = "identityNumber", @type = "number" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control", @id = "phone", @type = "number" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="productName">Is checked</label>
+                                        @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control", @id = "status" } })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="productName">Role</label>
+                                        @Html.DropDownList("roleId", null, htmlAttributes: new { @class = "form-control" })
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Image</label>
+                                        <img src=@Url.Content(Model.avatar) class="img-thumbnail" width="20%" style="display:block; margin-bottom:10px" id="imagePreview" />
+                                        <input type="file" name="uploadFile" class="form-control-file" id="image" accept="image/jpeg, image/png" onclick="defaultBtnActive()" />
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn waves-effect waves-light btn-success">Edit</button>
+                                <a href="~/Admin/CRUDmember/Index" class="btn btn-info">Back to list</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/validator.js"></script>
+<script>
+    Validator({
+        form: '#form-1',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules: [
+            Validator.isRequired('#firstName'),
+            Validator.isRequired('#lastName'),
+            Validator.isEmail('#email'),
+            Validator.isDate('#birthday'),
+            Validator.isRequired('#identityNumber'),
+            Validator.isRequired('#phone'),
+            Validator.isRequired('#address'),
+        ],
+    });
+</script>
+<script>
+    const inputImg = document.querySelector("#image");
+    const img = document.querySelector("#imagePreview");
+
+    function defaultBtnActive() {
+        inputImg.change();
+    }
+    inputImg.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const result = reader.result;
+                img.src = result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+

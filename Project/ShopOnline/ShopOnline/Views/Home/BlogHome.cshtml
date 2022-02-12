@@ -1,0 +1,18 @@
+﻿@using ShopOnline.Models
+@model List<Article>
+<div class="row">
+    @foreach (var i in Model)
+    {
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="blog__item">
+            <div class="blog__item__pic set-bg" data-setbg=@Url.Content(""+@i.image)></div>
+            <div class="blog__item__text">
+                <span><img src="~/Content/img/icon/calendar.png" alt=""> @i.publicDate</span>
+                <h5>@i.title</h5>
+                <a href="@Url.Action("ArticleDetail","Article",new { id = i.articleId})">Read More</a>
+            </div>
+        </div>
+    </div>
+    }
+
+</div>

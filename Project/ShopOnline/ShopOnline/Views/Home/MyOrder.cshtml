@@ -1,0 +1,99 @@
+﻿@using ShopOnline.Models
+@model List<Invoince>
+@{
+    ViewBag.Title = "MyOrder";
+    Layout = "~/Views/Shared/_LayoutPublicPage.cshtml";
+}
+<link rel="stylesheet" href="~/Content/css/WatchOrders.css">
+@if (Model.Count == 0)
+{
+    <div class="container" style="padding: 50px 0">
+        <div class="text-center">
+            <img src="~/Content/img/Orders/empty_state.png" class="img-fluid" alt="Responsive image" width="30%">
+            <h5 style=" margin-bottom: 19px; color:#3a3434;">There are no orders yet.</h5>
+            <a href="~/Shop/ProductList" class="btn-shownow">SHOP NOW</a>
+        </div>
+    </div>
+}
+else
+{
+    foreach (var i in Model)
+    {
+        <div class="container px-1 px-md-4 py-5 mx-auto">
+            <div class="card">
+                <div class="row d-flex justify-content-between px-3 top">
+                    <div class="d-flex">
+                        <h5>ORDER <span class="text-primary font-weight-bold"><a href="@Url.Action("InvoinceDetail", "Home", new { invoinceNo = i.invoinceNo})">#@i.invoinceNo</a></span></h5>
+                    </div>
+                    <div class="d-flex flex-column text-sm-right">
+                        <p class="mb-0">Date order <span class="font-weight-bold">@i.dateOrder</span></p>
+                        <p>USPS <span class="font-weight-bold">234094567242423422898</span></p>
+                    </div>
+                </div> <!-- Add class 'active' to progress -->
+                <div class="row d-flex justify-content-center">
+                    <div class="col-12">
+                        @if (i.deliveryStatus == true)
+                        {
+                            <ul id="progressbar" class="text-center">
+                                <li class="active step0"></li>
+                                <li class="active step0"></li>
+                                <li class="active step0"></li>
+                                <li class="active step0"></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul id="progressbar" class="text-center">
+                                <li class="active step0"></li>
+                                <li class="step0"></li>
+                                <li class="step0"></li>
+                                <li class="step0"></li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+                <div class="row justify-content-between top">
+                    <div class="row d-flex icon-content">
+                        <img class="icon" src="~/Content/img/Orders/process-check.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>Processed</p>
+                        </div>
+                    </div>
+                    <div class="row d-flex icon-content">
+                        <img class="icon" src="~/Content/img/Orders/process-product.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>Shipped</p>
+                        </div>
+                    </div>
+                    <div class="row d-flex icon-content">
+                        <img class="icon" src="~/Content/img/Orders/process-delivery.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>En Route</p>
+                        </div>
+                    </div>
+                    <div class="row d-flex icon-content">
+                        <img class="icon" src="~/Content/img/Orders/process-home.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>Arrived</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white px-sm-3 pt-sm-4 px-0">
+                    <div class="row text-center ">
+                        <div class="col my-auto border-line ">
+                            <h5><a href="#">Track</a></h5>
+                        </div>
+                        <div class="col my-auto border-line ">
+                            <h5><a href="@Url.Action("Delete", "Home", new { id = i.invoinceNo})" onclick="return confirm('Are you sure you want to delete this order?')">Delete</a></h5>
+                        </div>
+                        <div class="col my-auto border-line ">
+                            <h5><a href="#">Pre-pay</a></h5>
+                        </div>
+                        <div class="col my-auto mx-0 px-0 "><img class="img-fluid cursor-pointer" src="~/Content/img/Orders/three-dot.png" width="30" height="30"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+

@@ -1,0 +1,156 @@
+﻿<script>
+    var categories = @Html.Raw(Json.Encode(ViewBag.categories));
+    var categoriesCount = @Html.Raw(Json.Encode(ViewBag.categoriesCount));
+    new Chart(document.getElementById("pie-chart"), {
+        type: 'doughnut',
+        data: {
+            labels: categories,
+            datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#6C7EE1", "#FBA2D0", "#2D99AE", "#BCFEFE", "#FFD66D", "#05299E", "#FFC4A4", "#F20231"],
+                data: categoriesCount
+            }]
+        }
+    });
+    new Chart(document.getElementById("line-chart"), {
+        type: 'line',
+        data: {
+            labels: ['Mon','Tue','Web','Thu','Fri','Sat','Sun'],
+            datasets: [{
+                label: "Income (Dollar)",
+                data: [10,20,30,20,20,60,10]
+            }]
+        }
+    });
+</script>
+<script>
+    $(function () {
+        var date = @Html.Raw(Json.Encode(ViewBag.date));
+        var income = @Html.Raw(Json.Encode(ViewBag.income));
+            // ==============================================================
+            // Earning Stastics Chart
+            // ==============================================================
+            var data = {
+                labels: date,
+                series: [
+                    income
+                ]
+            };
+
+            var options = {
+                axisX: {
+                    showGrid: false
+                },
+                seriesBarDistance: 1,
+                chartPadding: {
+                    top: 15,
+                    right: 15,
+                    bottom: 5,
+                    left: 0
+                },
+                plugins: [
+                    Chartist.plugins.tooltip()
+                ],
+                width: '100%'
+            };
+
+            var responsiveOptions = [
+                ['screen and (max-width: 640px)', {
+                    seriesBarDistance: 5,
+                    axisX: {
+                        labelInterpolationFnc: function (value) {
+                            return value[0];
+                        }
+                    }
+                }]
+            ];
+            new Chartist.Line('.net-income', data, options, responsiveOptions);
+
+            // ==============================================================
+            // Visit By Location
+            // ==============================================================
+            jQuery('#visitbylocate').vectorMap({
+                map: 'world_mill_en',
+                backgroundColor: 'transparent',
+                borderColor: '#000',
+                borderOpacity: 0,
+                borderWidth: 0,
+                zoomOnScroll: false,
+                color: '#d5dce5',
+                regionStyle: {
+                    initial: {
+                        fill: '#d5dce5',
+                        'stroke-width': 1,
+                        'stroke': 'rgba(255, 255, 255, 0.5)'
+                    }
+                },
+                enableZoom: true,
+                hoverColor: '#bdc9d7',
+                hoverOpacity: null,
+                normalizeFunction: 'linear',
+                scaleColors: ['#d5dce5', '#d5dce5'],
+                selectedColor: '#bdc9d7',
+                selectedRegions: [],
+                showTooltip: true,
+                onRegionClick: function (element, code, region) {
+                    var message = 'You clicked "' + region + '" which has the code: ' + code.toUpperCase();
+                    alert(message);
+                }
+            });
+
+            // ==============================================================
+            // Earning Stastics Chart
+            // ==============================================================
+            var chart = new Chartist.Line('.stats', {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 
+                series: [[11, 10, 15, 21, 14, 23, 12]]
+            }, {
+                low: 0,
+                high: 28,
+                showArea: true,
+                fullWidth: true,
+                plugins: [
+                    Chartist.plugins.tooltip()
+                ],
+                axisY: {
+                    onlyInteger: true,
+                    scaleMinSpace: 40,
+                    offset: 20,
+                    labelInterpolationFnc: function (value) {
+                        return (value / 1) + 'k';
+                    }
+                },
+            });
+
+            // Offset x1 a tiny amount so that the straight stroke gets a bounding box
+            chart.on('draw', function (ctx) {
+                if (ctx.type === 'area') {
+                    ctx.element.attr({
+                        x1: ctx.x1 + 0.001
+                    });
+                }
+            });
+
+            // Create the gradient definition on created event (always after chart re-render)
+            chart.on('created', function (ctx) {
+                var defs = ctx.svg.elem('defs');
+                defs.elem('linearGradient', {
+                    id: 'gradient',
+                    x1: 0,
+                    y1: 1,
+                    x2: 0,
+                    y2: 0
+                }).elem('stop', {
+                    offset: 0,
+                    'stop-color': 'rgba(255, 255, 255, 1)'
+                }).parent().elem('stop', {
+                    offset: 1,
+                    'stop-color': 'rgba(80, 153, 255, 1)'
+                });
+            });
+
+            $(window).on('resize', function () {
+                chart.update();
+            });
+})
+</script>

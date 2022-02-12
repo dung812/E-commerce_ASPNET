@@ -1,0 +1,25 @@
+product(productId, productName, image, price, discount, description, status, dateCreate, quanlity, brand, categoryId, userName)
+productCategory(categoryId, categoryName)
+Member (userName, password, firstName, lastName, birthday, identityNumber, phone, email, dateOfJoin, address, status, avatar, roleId)
+Role(roleId, roleName)
+Customer(customerId, firstName, lastName, email, phone, address)
+Invoince(invoinceNo, dateOrder, status, deliveryStatus, DeliveryDate, totalMoney,userName, customerId)
+InvoinceDetail(invoinceNo, productId, quanlityProduct, unit price, totalDiscount, totalPrice)(số lượng, đơn giá- giá sp, tổng tiền, tổng tiền đã giảm)
+Post(postId, title, shortDescription, image, publicDate, content, status, userName, categoryId)
+Contact(id, dateContact, name, email, message)
+Slide(id, dateCreate, name, description, image, url, status)
+
+
+product(productID, productName, image, price, color, size, description, status, dateCreate, quanlity, productGroupID, manufacturesID, userName)
+Manufactures(manufacturesID, manufacturesName, address, logo) - Thay thế cho brand
+Promotional(promotionalID, productID, startDate, endDate, Discount) - Khuyến mãi
+productGroup(productGroupID, productGroupName) - Loại sản phẩm
+Member (userName, password, firstName, lastName, birthday, sender, phone, email, address, avatar, dateOfJoin, status, roleId)
+Role(roleId, roleName, description)
+Customer(customerId, firstName, lastName, email, phone, address)
+Invoince(invoinceNo, dateOrder, state, DeliveryDate, deliveryStatus, totalMoney, userName, customerId, paymentID) - Thay đổi states có 4 trạng thái
+InvoinceDetail(invoinceNo, productId, quanlityProduct, unit price, totalDiscount, totalPrice)
+Payments(paymentID, paymentName) - Phương thức thanh toán
+Post(postId, title, shortDescription, image, publicDate, content, status, userName, categoryId)
+Contact(id, dateContact, name, email, message)
+Banner(id, name, date, image, description, status)

@@ -1,0 +1,147 @@
+﻿@using ShopOnline.Models
+@model List<InvoinceDetail>
+@{
+    ViewBag.Title = "InvoinceDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutDashBoard.cshtml";
+}
+@{
+    Invoince info = (Invoince)@Session["information"];
+}
+
+<div class="jumbotron jumbotron-fluid">
+    <h1 class="mt-3 theme-color mb-4 text-center">Orders detail</h1>
+    <p class="lead text-center">
+        Orders / #@ViewBag.invoinceNo
+    </p>
+    <p class="lead text-center">
+        <a class="btn btn-primary btn-lg" href="~/Admin/CRUDinvoince/Index" role="button">Back to list</a>
+    </p>
+</div>
+<div class="card-body">
+    <h3 class="mb-3 text-dark text-uppercase">Information</h3>
+    <hr />
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" class="text-center">Name</th>
+                <th scope="col" class="text-center">Email</th>
+                <th scope="col" class="text-center">Phone</th>
+                <th scope="col" class="text-center">Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">
+                    @if (info.customerId != null && info.userName == null)
+                    {
+                        @info.Customer.firstName<span> </span>@info.Customer.lastName
+                    }
+                    else
+                    { 
+                        @info.Member.firstName<span> </span>@info.Member.lastName
+                    }
+                </td>
+                <td class="text-center">
+                    @if (info.customerId != null && info.userName == null)
+                    {
+                        @info.Customer.email
+                    }
+                    else
+                    { 
+                        @info.Member.email
+                    }
+                </td>
+                <td class="text-center">
+                    @if (info.customerId != null && info.userName == null)
+                    {
+                        @info.Customer.phone
+                    }
+                    else
+                    {
+                        @info.Member.phone
+                    }
+                </td>
+                <td class="text-center">
+                    @if (info.customerId != null && info.userName == null)
+                    {
+                        @info.Customer.address
+                    }
+                    else
+                    { 
+                        @info.Member.address
+                    }
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h3 class="mb-3 text-dark text-uppercase">Product</h3>
+    <hr />
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" class="text-center">STT</th>
+                <th scope="col" class="text-center">Product</th>
+                <th scope="col" class="text-center">Quality</th>
+                <th scope="col" class="text-center">Unit price</th>
+                <th scope="col" class="text-center">Discount</th>
+                <th scope="col" class="text-center">Total money</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int stt = 1, total = 0, totaldiscount = 0, totalprice = 0, tempPrice = 0;}
+            @foreach (var i in Model)
+            {
+                tempPrice = (int)i.totalPrice + (int)i.totalDiscount;
+                <tr>
+                    <th scope="row" class="text-center font-weight-medium" width="80px">@stt</th>
+                    <td width="400px">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src=@Url.Content("" + i.Product.image) width="80%" />
+                            </div>
+                            <div class="col-md-9">
+                                @i.Product.productName
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">@i.quanlityProduct</td>
+                    <td class="text-center">$@i.Product.price</td>
+                    <td class="text-center">@i.Product.discount%</td>
+                    <td class="text-center">$@tempPrice</td>
+                </tr>
+                stt++;
+                total += (int)i.totalPrice;
+                totaldiscount += (int)i.totalDiscount;
+            }
+            @{ 
+                totalprice = total + totaldiscount; 
+             }
+        </tbody>
+    </table>
+
+    <h3 class="mb-3 text-dark text-uppercase">Payment</h3>
+    <hr />
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" class="text-center">Total product money</th>
+                <th scope="col" class="text-center">Shipping</th>
+                <th scope="col" class="text-center">Total money discounted</th>
+                <th scope="col" class="text-center">Total payment</th>
+                <th scope="col" class="text-center">Print order</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">$@totalprice</td>
+                <td class="text-center">$0</td>
+                <td class="text-center">-$@totaldiscount</td>
+                <td class="text-center">$@total</td>
+                <td class="text-center"><a href="@Url.Action("ExportPDF", "CRUDinvoince")"><u>Print order</u></a></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

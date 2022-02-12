@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutPublicPage.cshtml";
+}
+
+@model ShopOnline.Models.Member
+
+<script>
+    var obj = document.querySelector(".navlist li:nth-child(1)");
+    obj.classList.remove("active");
+</script>
+
+<div class="container">
+    <div class="singinBx">
+
+        @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @id = "form-1" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <h2>Sign Up</h2>
+                    </div>
+                </div>
+
+                <div class="nameI" style="display:flex;justify-content: space-between">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="firstName" id="firstname" placeholder="First Name" />
+                        @Html.ValidationMessageFor(model => model.firstName, "", new { @class = "text-danger" })
+                        <span class="form-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="lastName" id="lastname" placeholder="Last Name" />
+                        @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
+                        <span class="form-message"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="userName" id="username" placeholder="User name" />
+                    @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" name="comfirm" class="form-control" id="password_confirmation" placeholder="Confirm Password" />
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Email" />
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="address" id="address" placeholder="Address" />
+                    @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" class="form-control" name="phone" id="phone" placeholder="Phone Number" />
+                    @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" class="form-control" name="identityNumber" id="inumber" placeholder="Identity Number" />
+                    @Html.ValidationMessageFor(model => model.identityNumber, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="date" class="form-control" name="birthday" id="birthday" />
+                    @Html.ValidationMessageFor(model => model.birthday, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-submitForm">Create</button>
+                </div>
+
+                <div class="col-md-10">
+                    <p class="signup">Already have an account ? <a href="~/User/Login">Sign In.</a></p>
+                </div>
+
+         }
+    </div>
+</div>
+<script src="~/Content/js/validator.js"></script>
+<script>
+    Validator({
+        form: '#form-1',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules: [
+            Validator.isRequired('#firstname'),
+            Validator.isRequired('#lastname'),
+            Validator.isRequired('#username'),
+            Validator.isEmail('#email'),
+            Validator.isRequired('#address'),
+            Validator.isRequired('#phone'),
+            Validator.isRequired('#username'),
+            Validator.isRequired('#inumber'),
+            Validator.isRequired('#birthday'),
+            Validator.minLength('#password', 6),
+            Validator.isRequired('#password_confirmation'),
+            Validator.isConfirmed('#password_confirmation', function () {
+                return document.querySelector('#form-1 #password').value;
+            }, 'Passwords must match')
+        ],
+    });
+</script>

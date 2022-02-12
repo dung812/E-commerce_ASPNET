@@ -1,0 +1,46 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete order</title>
+    <link rel="stylesheet" href="~/Content/css/style.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/css/style.css" type="text/css">
+</head>
+<body>
+     <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+
+    <div class="box-detail">
+        @using (Html.BeginForm("SubmitBill", "Cart", FormMethod.Post))
+        {
+         <div class="text-center"><img src=@Url.Content("~/Content/img/icon/checked.png") alt="" width="40%"></div>
+        <h4 class="mt-3 theme-color mb-5 text-center">Thanks for your order</h4>
+        <span class="theme-color">Payment Summary</span>
+        <div class="mb-3">
+            <hr class="new1">
+        </div>
+        <div class="d-flex justify-content-between"> <span class="font-weight-bold">Total money of the product(Qty:@ViewBag.quanlityItem)</span> <span class="text-muted">$@String.Format("{0:0,0}", ViewBag.totalPrice)</span> </div>
+        <div class="d-flex justify-content-between"> <small>Shipping</small> <small>$0</small> </div>
+        <div class="d-flex justify-content-between mt-3"> <span class="font-weight-bold">Total</span> <span class="font-weight-bold theme-color">$@String.Format("{0:0,0}", ViewBag.totalPrice)</span> </div>
+
+        <div class="direction">
+            <div class="text-center mt-5"> <button type="submit" class="btn-direct">Back to shop</button></div>
+        </div>
+        }
+
+
+    </div>
+    <script src="~/Content/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/main.js"></script>
+</body>
+</html>
+

@@ -40,4 +40,4 @@
 
 <br/>
 
-[View on youtube](https://youtu.be/xcqi7A-sCgo)
+[View demo on youtube](https://youtu.be/xcqi7A-sCgo)
